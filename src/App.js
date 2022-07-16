@@ -9,7 +9,8 @@ function App() {
   const [words, setWords] = useState([]);
   const [wordCount, setWordCount] = useState(0);
   const [current, setCurrent] = useState(0);
-  const [blurCn, setBlurCn] = useState(true);
+  const [answerBlured, setAnswerBlured] = useState(true);
+  const [swapAnswer, setSwapAnswer] = useState(false);
 
   useEffect(() => {
     loadWords().then(d => {
@@ -31,20 +32,29 @@ function App() {
     }
   }, [current]);
 
-  let onBlurCnChanged = useCallback(e => {
-    setBlurCn(e.target.checked);
+  let onAnswerBluredChanged = useCallback(e => {
+    setAnswerBlured(e.target.checked);
   }, [])
+
+  let onSwapAnswerChanged = useCallback(e => {
+    setSwapAnswer(e.target.checked);
+  }, []);
 
   return (
     <div className="App">
-      <div style={{ 'flexGrow': 1 }}><WordCard blurCn={blurCn} {...words[current]}></WordCard></div>
+      <div style={{ 'flexGrow': 1 }}>
+        <WordCard answerBlured={answerBlured} swapAnswer={swapAnswer} {...words[current]}></WordCard>
+      </div>
       <div>
         <Button type="normal" disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button>
         <span style={{ display: "inline-block", width: 60 }}>{current + 1}/{wordCount}</span>
         <Button type="primary" disabled={!(current < wordCount - 1)} onClick={onNextWord}>Next</Button>
       </div>
-      <div style={{ marginTop: 40 }}>
-        <Checkbox defaultChecked={blurCn} onChange={onBlurCnChanged}>Blur Chinese</Checkbox>
+      <div className='settings'>
+        <div style={{ width: 120 }}>
+          <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Blur Answer</Checkbox></div>
+          <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
+        </div>
       </div>
     </div>
   );

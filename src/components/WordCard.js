@@ -1,16 +1,18 @@
 import { useCallback } from 'react';
 
-function WordCard({ english, chinese, symbol, phrase, similar, blurCn }) {
-    let blurCnStyle = useCallback(() => {
-        return { filter: blurCn ? "blur(8px)" : 'unset' };
-    }, [blurCn]);
+function WordCard({ english, chinese, symbol, phrase, similar, answerBlured, swapAnswer }) {
+    let blurStyle = useCallback(() => {
+        return { filter: answerBlured ? "blur(8px)" : 'unset' };
+    }, [answerBlured]);
 
     return (<div style={{ width: 460, height: 360 }}>
-        <h1>{english}</h1>
-        <h3 style={blurCnStyle()}>{chinese}</h3>
-        <div style={blurCnStyle()}>{symbol}</div>
-        <div style={blurCnStyle()}>{phrase}</div>
-        <div style={blurCnStyle()}>{similar}</div>
+        <h1>{swapAnswer ? chinese : english}</h1>
+        <div direction='vertical' style={blurStyle()} size="large">
+            <h2>{swapAnswer ? english : chinese}</h2>
+            <div>{symbol}</div>
+            <div>{phrase}</div>
+            <div>{similar}</div>
+        </div>
     </div>);
 }
 
