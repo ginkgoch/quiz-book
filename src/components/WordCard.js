@@ -5,7 +5,7 @@ function WordCard({ english, chinese, symbol, phrase, similar, blurCn }) {
         return { filter: blurCn ? "blur(8px)" : 'unset' };
     }, [blurCn]);
 
-    return (<div style={{ width: 460, height: 400 }}>
+    return (<div style={{ width: 460, height: 360 }}>
         <h1>{english}</h1>
         <h3 style={blurCnStyle()}>{chinese}</h3>
         <div style={blurCnStyle()}>{symbol}</div>

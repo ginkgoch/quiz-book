@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { loadWords } from './shared/resources'
 
 import WordCard from './components/WordCard';
-import { Checkbox } from 'antd';
+import { Button, Checkbox } from 'antd';
 
 function App() {
   const [words, setWords] = useState([]);
@@ -39,9 +39,9 @@ function App() {
     <div className="App">
       <div style={{ 'flexGrow': 1 }}><WordCard blurCn={blurCn} {...words[current]}></WordCard></div>
       <div>
-        <button disabled={!(current > 0)} onClick={onPreviousWord}>Previous</button>
+        <Button type="normal" disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button>
         <span style={{ display: "inline-block", width: 60 }}>{current + 1}/{wordCount}</span>
-        <button disabled={!(current < wordCount - 1)} onClick={onNextWord}>Next</button>
+        <Button type="primary" disabled={!(current < wordCount - 1)} onClick={onNextWord}>Next</Button>
       </div>
       <div style={{ marginTop: 40 }}>
         <Checkbox defaultChecked={blurCn} onChange={onBlurCnChanged}>Blur Chinese</Checkbox>
