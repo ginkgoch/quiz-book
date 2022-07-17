@@ -6,12 +6,14 @@ import EnglishQuizPage from './pages/EnglishQuizPage';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<IndexPage />}></Route>
-        <Route path='/quiz/:category/:type' element={<EnglishQuizPage />}></Route>
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route path='/' element={<IndexPage />}></Route>
+          <Route path='/quiz/:category/:type' element={<EnglishQuizPage />}></Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
