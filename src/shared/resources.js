@@ -27,7 +27,13 @@ async function loadWords() {
     return result;
 }
 
+async function loadIndex() {
+    const res = await axios.get('./assets/index.json');
+    return res.data;
+}
+
 export {
     loadResources,
-    loadWords
+    loadWords,
+    loadIndex
 }
