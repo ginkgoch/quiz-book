@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { loadWords } from './shared/resources'
+import { loadWords } from '../shared/resources'
 
-import WordCard from './components/WordCard';
+import WordCard from '../components/WordCard';
 import { Button, Checkbox } from 'antd';
 import _ from 'lodash';
+import { useParams } from 'react-router-dom';
 
 function EnglishQuizPage() {
     const [words, setWords] = useState([]);
@@ -12,14 +13,15 @@ function EnglishQuizPage() {
     const [answerBlured, setAnswerBlured] = useState(true);
     const [swapAnswer, setSwapAnswer] = useState(false);
     const [shuffled, setShuffled] = useState(false);
+    const { category, type } = useParams();
 
     useEffect(() => {
-        loadWords().then(d => {
+        loadWords(category, type).then(d => {
             setWords(d);
             setWordCount(d.length);
             setCurrent(0);
         });
-    }, []);
+    }, [category, type]);
 
     let onNextWord = useCallback(() => {
         if (current < wordCount - 1) {

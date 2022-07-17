@@ -1,14 +1,12 @@
-{
-    "english": [
-        {
-            "type": "words",
-            "name": "单词",
-            "location": "english/words"
-        },
-        {
-            "type": "phrases",
-            "name": "短语",
-            "location": "english/phrases"
-        }
-    ]
-}
+[
+    {
+        "type": "words",
+        "name": "单词",
+        "category": "english"
+    },
+    {
+        "type": "phrases",
+        "name": "短语",
+        "category": "english"
+    }
+]
