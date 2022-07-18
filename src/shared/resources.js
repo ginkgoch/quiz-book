@@ -9,7 +9,7 @@ async function loadResources(category, type) {
         const resWords = await axios.get(`/assets/${category}/${type}/${path}`);
         const csvWords = resWords.data;
         const content = await csv().fromString(csvWords);
-        content['source'] = path.replace(/\.csv/ig, '');
+        content.forEach(r => r['source'] = path.replace(/\.csv/ig, ''));
         result.push(...content);
     }
 
