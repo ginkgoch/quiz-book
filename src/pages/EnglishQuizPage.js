@@ -3,8 +3,9 @@ import { loadWords } from '../shared/resources'
 
 import WordCard from '../components/WordCard';
 import { Button, Checkbox } from 'antd';
+import { LeftOutlined } from '@ant-design/icons'
 import _ from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function EnglishQuizPage() {
     const [words, setWords] = useState([]);
@@ -14,6 +15,7 @@ function EnglishQuizPage() {
     const [swapAnswer, setSwapAnswer] = useState(false);
     const [shuffled, setShuffled] = useState(false);
     const { category, type } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadWords(category, type).then(d => {
@@ -56,7 +58,10 @@ function EnglishQuizPage() {
         }
     }, [words]);
 
-    return (
+    return (<>
+        <div style={{ position: "fixed", left: 40, top: 20 }}>
+            <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
+        </div>
         <div className="App">
             <div style={{ 'flexGrow': 1 }}>
                 <WordCard answerBlured={answerBlured} swapAnswer={swapAnswer} {...words[current]}></WordCard>
@@ -73,7 +78,9 @@ function EnglishQuizPage() {
                     <div><Checkbox defaultChecked={shuffled} onChange={onShuffledChanged}>Shuffle</Checkbox></div>
                 </div>
             </div>
+
         </div>
+    </>
     );
 }
 
