@@ -3,17 +3,16 @@ import { Button } from 'antd';
 import { useCallback } from 'react';
 
 
-function FavoriteButton({ checked, onFavoriteChanged }) {
-    const onCheckedChanged = useCallback(() => {
-        const currentChecked = !checked;
-        if (onFavoriteChanged) {
-            onFavoriteChanged(currentChecked);
+function FavoriteButton({ checked, onClick }) {
+    const onClickCallback = useCallback(() => {
+        if (onClick) {
+            onClick();
         }
-    }, [onFavoriteChanged, checked]);
+    }, [onClick]);
 
     return <Button size="large" shape="circle"
         icon={checked ? <StarFilled style={{ fontSize: 20, color: "#f2c132" }} /> : <StarOutlined style={{ fontSize: 20 }} />}
-        onClick={onCheckedChanged} />;
+        onClick={onClickCallback} />;
 }
 
 export default FavoriteButton;
