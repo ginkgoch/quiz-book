@@ -1,16 +1,28 @@
+import _ from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { loadWords } from '../shared/resources'
-
-import WordCard from '../components/WordCard';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Checkbox, Form, Modal, Row, Col } from 'antd';
 import { LeftOutlined, SettingOutlined } from '@ant-design/icons'
-import _ from 'lodash';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import { loadWords } from '../shared/resources'
+import WordCard from '../components/WordCard';
+import FavoriteButton from '../components/FavoriteButton';
+
+const storedFavoritedWordsKey = 'english-words-fav';
+
+let isFavorited = (word) => {
+    let t = localStorage.getItem(storedFavoritedWordsKey);
+    if (t !== null) {
+        return t.split(',').includes(word);
+    } else {
+        return false;
+    }
+};
 
 function EnglishQuizPage() {
     const [words, setWords] = useState([]);
     const [wordsInQuiz, setWordsInQuiz] = useState([]);
-    // const [wordCount, setWordCount] = useState(0);
+    const [favorited, setFavorited] = useState(false);
     const [current, setCurrent] = useState(0);
     const [answerBlured, setAnswerBlured] = useState(true);
     const [swapAnswer, setSwapAnswer] = useState(false);
@@ -25,22 +37,25 @@ function EnglishQuizPage() {
         loadWords(category, type).then(d => {
             setWords(d);
             setWordsInQuiz(d);
-            // setWordCount(d.length);
             setCurrent(0);
         });
     }, [category, type]);
 
     let onNextWord = useCallback(() => {
         if (current < wordsInQuiz.length - 1) {
-            setCurrent(current + 1);
+            const nextPage = current + 1;
+            setCurrent(nextPage);
+            setFavorited(isFavorited(wordsInQuiz[nextPage]?.english));
         }
     }, [current, wordsInQuiz]);
 
     let onPreviousWord = useCallback(() => {
         if (current > 0) {
-            setCurrent(current - 1);
+            const previousPage = current - 1;
+            setCurrent(previousPage);
+            setFavorited(isFavorited(wordsInQuiz[previousPage]?.english));
         }
-    }, [current]);
+    }, [current, wordsInQuiz]);
 
     let onAnswerBluredChanged = useCallback(e => {
         setAnswerBlured(e.target.checked);
@@ -67,12 +82,34 @@ function EnglishQuizPage() {
         });
     }, [form, words]);
 
+    let onFavoriteChanged = useCallback(() => {
+        let t = localStorage.getItem(storedFavoritedWordsKey);
+        let ta = (t === null || t.length === 0) ? [] : t.split(',');
+
+        if (!favorited) {
+            if (!ta.includes(wordsInQuiz[current].english)) {
+                ta.push(wordsInQuiz[current].english);
+                setFavorited(true);
+            }
+        } else {
+            let i = ta.indexOf(wordsInQuiz[current].english);
+            if (i >= 0) {
+                ta.splice(i, 1);
+                setFavorited(false);
+            }
+        }
+
+        localStorage.setItem(storedFavoritedWordsKey, ta.join(','))
+    }, [wordsInQuiz, current, favorited]);
+
     return (<>
         <div style={{ position: "fixed", left: 40, top: 20 }}>
             <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
         </div>
         <div style={{ position: "fixed", right: 40, top: 20 }}>
-            <Button icon={<SettingOutlined />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} />
+            <div><Button icon={<SettingOutlined style={{ fontSize: 20 }} />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} /></div>
+            <div style={{ marginTop: 10 }}><FavoriteButton checked={favorited} onClick={onFavoriteChanged} /></div>
+
         </div>
         <div className="App">
             <div style={{ 'flexGrow': 1 }}>
@@ -87,7 +124,6 @@ function EnglishQuizPage() {
                 <div style={{ width: 120 }}>
                     <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Blur Answer</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
-                    {/* <div><Checkbox defaultChecked={shuffled} onChange={onShuffledChanged}>Shuffle</Checkbox></div> */}
                 </div>
             </div>
         </div>
