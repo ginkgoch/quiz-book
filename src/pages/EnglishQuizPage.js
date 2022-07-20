@@ -10,13 +10,17 @@ import FavoriteButton from '../components/FavoriteButton';
 
 const storedFavoritedWordsKey = 'english-words-fav';
 
-let isFavorited = (word) => {
+let getFavoritedWords = function () {
     let t = localStorage.getItem(storedFavoritedWordsKey);
     if (t !== null) {
-        return t.split(',').includes(word);
+        return t.split(',');
     } else {
-        return false;
+        return [];
     }
+}
+
+let isFavorited = (word) => {
+    return getFavoritedWords().includes(word);
 };
 
 function EnglishQuizPage() {
@@ -29,6 +33,7 @@ function EnglishQuizPage() {
     const [shuffled, setShuffled] = useState(false);
     const [units, setUnits] = useState([]);
     const [settingModalVisible, setSettingModalVisible] = useState(false);
+    const [favoriteOnly, setFavoriteOnly] = useState(false);
     const { category, type } = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -48,6 +53,14 @@ function EnglishQuizPage() {
             setFavorited(isFavorited(wordsInQuiz[nextPage]?.english));
         }
     }, [current, wordsInQuiz]);
+
+    let getIndexName = useCallback(() => {
+        if (wordsInQuiz.length === 0) {
+            return '--';
+        } else {
+            return `${current + 1} / ${wordsInQuiz.length}`;
+        }
+    }, [wordsInQuiz, current]);
 
     let onPreviousWord = useCallback(() => {
         if (current > 0) {
@@ -69,8 +82,15 @@ function EnglishQuizPage() {
         form.validateFields().then(values => {
             setShuffled(values.shuffled);
             setUnits(values.units);
+            setFavoriteOnly(values.favoriteOnly);
 
-            let newWordsInQuiz = values.units.length === 0 ? words : words.filter(w => values.units.includes(w.source));
+            let newWordsInQuiz = words;
+            if (values.favoriteOnly) {
+                let favoritedWords = getFavoritedWords();
+                newWordsInQuiz = newWordsInQuiz.filter(w => favoritedWords.includes(w.english));
+            }
+
+            newWordsInQuiz = values.units.length === 0 ? newWordsInQuiz : newWordsInQuiz.filter(w => values.units.includes(w.source));
             if (values.shuffled) {
                 newWordsInQuiz = _.shuffle(newWordsInQuiz);
             }
@@ -117,7 +137,7 @@ function EnglishQuizPage() {
             </div>
             <div>
                 <Button size="large" type="normal" disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button>
-                <span style={{ display: "inline-block", width: 100 }}>{current + 1}/{wordsInQuiz.length}</span>
+                <span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span>
                 <Button size="large" type="primary" disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
             </div>
             <div className='settings'>
@@ -130,7 +150,7 @@ function EnglishQuizPage() {
         <Modal title="Config" visible={settingModalVisible} okText="Okay" cancelText="Cancel"
             onCancel={() => setSettingModalVisible(false)}
             onOk={onConfigConfirmed}>
-            <Form form={form} initialValues={{ shuffled, units: units }} name="ConfigForm" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+            <Form form={form} initialValues={{ shuffled, units: units, favoriteOnly }} name="ConfigForm" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
                 <Form.Item name="shuffled" label="Shuffled" valuePropName="checked">
                     <Checkbox />
                 </Form.Item>
@@ -138,6 +158,9 @@ function EnglishQuizPage() {
                     <Checkbox.Group>
                         <UnitOptions words={words} />
                     </Checkbox.Group>
+                </Form.Item>
+                <Form.Item name="favoriteOnly" label="Favorite Only" valuePropName="checked">
+                    <Checkbox />
                 </Form.Item>
             </Form>
         </Modal>
