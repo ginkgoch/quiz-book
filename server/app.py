@@ -1,7 +1,7 @@
 from flask import Flask
 from routes.english import blueprint_english
 
-PORT = 3000
+PORT = 3300
 
 app = Flask(__name__)
 app.register_blueprint(blueprint_english, url_prefix='/english')
