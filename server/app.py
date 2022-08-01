@@ -1,9 +1,11 @@
 from flask import Flask
+from flask_cors import CORS
 from routes.english import blueprint_english
 
 PORT = 3300
 
 app = Flask(__name__)
+CORS(app);
 app.register_blueprint(blueprint_english, url_prefix='/english')
 
 

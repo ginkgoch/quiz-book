@@ -4,7 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Checkbox, Form, Modal, Row, Col } from 'antd';
 import { LeftOutlined, SettingOutlined } from '@ant-design/icons'
 
-import { loadWords } from '../shared/resources'
+import { loadWords } from '../shared/resources';
+import { translate } from '../shared/service';
 import WordCard from '../components/WordCard';
 import FavoriteButton from '../components/FavoriteButton';
 
@@ -40,9 +41,19 @@ function EnglishQuizPage() {
 
     useEffect(() => {
         loadWords(category, type).then(d => {
-            setWords(d);
-            setWordsInQuiz(d);
-            setCurrent(0);
+            translate(d).then(words => {
+                for (let word of d) {
+                    let wordInDb = words.filter(w => w['en'] === word['english']);
+                    if (wordInDb.length > 0) {
+                        word['chinese'] = wordInDb[0]['zh'];
+                        word['symbol'] = wordInDb[0]['phonetic_us'];
+                    }
+                }
+
+                setWords(d);
+                setWordsInQuiz(d);
+                setCurrent(0);
+            });
         });
     }, [category, type]);
 
