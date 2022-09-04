@@ -55,7 +55,9 @@ function EnglishQuizPage() {
 
                 if (d.length > 0) {
                     setCurrent(0);
-                }
+                } 
+
+                setFavorited(d.length === 0 ? false : isFavorited(d[0]?.english));
             });
         });
     }, [category, type]);
@@ -113,9 +115,9 @@ function EnglishQuizPage() {
 
             if (newWordsInQuiz.length > 0) {
                 setCurrent(0);
-                setFavorited(isFavorited(newWordsInQuiz[0]?.english));
-            }
+            } 
 
+            setFavorited(newWordsInQuiz.length === 0 ? false : isFavorited(newWordsInQuiz[0]?.english));
             setSettingModalVisible(false);
         });
     }, [form, words]);
