@@ -52,7 +52,10 @@ function EnglishQuizPage() {
 
                 setWords(d);
                 setWordsInQuiz(d);
-                setCurrent(0);
+
+                if (d.length > 0) {
+                    setCurrent(0);
+                }
             });
         });
     }, [category, type]);
@@ -107,8 +110,11 @@ function EnglishQuizPage() {
             }
 
             setWordsInQuiz(newWordsInQuiz);
-            setCurrent(0);
-            setFavorited(isFavorited(newWordsInQuiz[0]?.english));
+
+            if (newWordsInQuiz.length > 0) {
+                setCurrent(0);
+                setFavorited(isFavorited(newWordsInQuiz[0]?.english));
+            }
 
             setSettingModalVisible(false);
         });
@@ -134,19 +140,11 @@ function EnglishQuizPage() {
         localStorage.setItem(storedFavoritedWordsKey, ta.join(','))
     }, [wordsInQuiz, current, favorited]);
 
-    return (<>
-        <div style={{ position: "fixed", left: 40, top: 20 }}>
-            <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
+    let quizContent = <>No Quiz Items</>
+    if (wordsInQuiz.length > 0) {
+        quizContent = (<><div style={{ 'flexGrow': 1 }}>
+            <WordCard answerBlured={answerBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
         </div>
-        <div style={{ position: "fixed", right: 40, top: 20 }}>
-            <div><Button icon={<SettingOutlined style={{ fontSize: 20 }} />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} /></div>
-            <div style={{ marginTop: 10 }}><FavoriteButton checked={favorited} onClick={onFavoriteChanged} /></div>
-
-        </div>
-        <div className="App">
-            <div style={{ 'flexGrow': 1 }}>
-                <WordCard answerBlured={answerBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
-            </div>
             <div>
                 <Button size="large" type="normal" disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button>
                 <span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span>
@@ -157,7 +155,20 @@ function EnglishQuizPage() {
                     <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Blur Answer</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
                 </div>
-            </div>
+            </div></>);
+    }
+
+    return (<>
+        <div style={{ position: "fixed", left: 40, top: 20 }}>
+            <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
+        </div>
+        <div style={{ position: "fixed", right: 40, top: 20 }}>
+            <div><Button icon={<SettingOutlined style={{ fontSize: 20 }} />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} /></div>
+            <div style={{ marginTop: 10 }}><FavoriteButton checked={favorited} onClick={onFavoriteChanged} /></div>
+
+        </div>
+        <div className="App">
+            {quizContent}
         </div>
         <Modal title="Config" visible={settingModalVisible} okText="Okay" cancelText="Cancel"
             onCancel={() => setSettingModalVisible(false)}
