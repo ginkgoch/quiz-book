@@ -30,6 +30,7 @@ function EnglishQuizPage() {
     const [favorited, setFavorited] = useState(false);
     const [current, setCurrent] = useState(0);
     const [answerBlured, setAnswerBlured] = useState(true);
+    const [symbolBlured, setSymbolBlured] = useState(false);
     const [swapAnswer, setSwapAnswer] = useState(false);
     const [shuffled, setShuffled] = useState(false);
     const [units, setUnits] = useState([]);
@@ -94,6 +95,10 @@ function EnglishQuizPage() {
         setSwapAnswer(e.target.checked);
     }, []);
 
+    let onSymbolBluredChanged = useCallback(e => {
+        setSymbolBlured(e.target.checked);
+    }, []);
+
     let onConfigConfirmed = useCallback(() => {
         form.validateFields().then(values => {
             setShuffled(values.shuffled);
@@ -145,7 +150,7 @@ function EnglishQuizPage() {
     let quizContent = <>No Quiz Items</>
     if (wordsInQuiz.length > 0) {
         quizContent = (<><div style={{ 'flexGrow': 1 }}>
-            <WordCard answerBlured={answerBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
+            <WordCard answerBlured={answerBlured} symbolBlured={symbolBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
         </div>
             <div>
                 <Button size="large" type="normal" disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button>
@@ -155,6 +160,7 @@ function EnglishQuizPage() {
             <div className='settings'>
                 <div style={{ width: 120 }}>
                     <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Blur Answer</Checkbox></div>
+                    <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Blur Symbol</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
                 </div>
             </div></>);
