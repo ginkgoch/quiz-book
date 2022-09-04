@@ -108,6 +108,7 @@ function EnglishQuizPage() {
 
             setWordsInQuiz(newWordsInQuiz);
             setCurrent(0);
+            setFavorited(isFavorited(newWordsInQuiz[0]?.english));
 
             setSettingModalVisible(false);
         });
