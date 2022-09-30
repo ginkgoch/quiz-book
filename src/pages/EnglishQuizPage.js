@@ -190,7 +190,7 @@ function EnglishQuizPage() {
 
 function UnitOptions({ words }) {
     return (<Row>
-        {[...new Set(words.map(w => w.source))].map(s => (<Col span={8} key={s}><Checkbox name={s} value={s}>{s}</Checkbox></Col>))}
+        {[...new Set(words.map(w => w['unit']))].map(s => (<Col span={8} key={s}><Checkbox name={s} value={s}>{s}</Checkbox></Col>))}
     </Row>);
 }
 
