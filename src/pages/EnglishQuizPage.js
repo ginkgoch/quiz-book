@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Checkbox, Form, Modal, Row, Col } from 'antd';
+import { Button, Checkbox, Form, Modal, Row, Col, Progress } from 'antd';
 import { LeftOutlined, SettingOutlined } from '@ant-design/icons'
 
 import { loadWords } from '../shared/resources';
@@ -141,10 +141,11 @@ function EnglishQuizPage() {
         quizContent = (<><div style={{ 'flexGrow': 1 }}>
             <WordCard answerBlured={answerBlured} symbolBlured={symbolBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
         </div>
+            <div><span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span></div>
+            <Progress style={{width: 290, marginBottom: 20}} percent={(current + 1) * 100 / wordsInQuiz.length} showInfo={false}></Progress>
             <div>
-                <Button size="large" type="normal" disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button>
-                <span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span>
-                <Button size="large" type="primary" disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
+                <Button size="large" type="normal" style={{height: 60, width: 120, marginRight: 10}} disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button> 
+                <Button size="large" type="primary" style={{height: 60, width: 160}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
             </div>
             <div className='settings'>
                 <div style={{ width: 120 }}>
