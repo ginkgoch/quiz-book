@@ -1,10 +1,18 @@
 import axios from 'axios';
 import csv from 'csvtojson'
 
+function getRootUrl() {
+    if (process.env.PUBLIC_URL) {
+        return process.env.PUBLIC_URL;
+    }
+    else {
+        return '';
+    }
+}
 
 async function loadResourcesV2(category, type) {
     const result = [];
-    const resWords = await axios.get(`/assets/${category}/${type}/index.csv`);
+    const resWords = await axios.get(`${getRootUrl()}/assets/${category}/${type}/index.csv`);
     const csvWords = resWords.data;
     const content = await csv().fromString(csvWords);
     result.push(...content);
@@ -13,11 +21,11 @@ async function loadResourcesV2(category, type) {
 }
 
 async function loadResources(category, type) {
-    const res = await axios.get(`/assets/${category}/${type}/index.json`);
+    const res = await axios.get(`${getRootUrl()}/assets/${category}/${type}/index.json`);
 
     const result = [];
     for (let path of res.data) {
-        const resWords = await axios.get(`/assets/${category}/${type}/${path}`);
+        const resWords = await axios.get(`${getRootUrl()}/assets/${category}/${type}/${path}`);
         const csvWords = resWords.data;
         const content = await csv().fromString(csvWords);
         content.forEach(r => r['source'] = path.replace(/\.csv/ig, ''));
@@ -38,7 +46,7 @@ async function loadWords(category, type) {
 }
 
 async function loadIndex() {
-    const res = await axios.get('/assets/index.json');
+    const res = await axios.get(`${getRootUrl()}/assets/index.json`);
     return res.data;
 }
 
