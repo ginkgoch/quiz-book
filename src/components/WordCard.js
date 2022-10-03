@@ -12,7 +12,7 @@ function WordCard({ english, chinese, symbol, phrase, similar, answerBlured, sym
         return { filter: answerBlured ? "blur(8px)" : 'unset' };
     }, [answerBlured]);
 
-    return (<div style={{ width: 540, height: 360 }}>
+    return (<div style={{ width: "100%", maxWidth: 414, height: 360, padding: "0px 20px" }}>
         <h1>{swapAnswer ? chinese : <EnWordLabel english={english} symbol={symbol} symbolBlured={symbolBlured} />}</h1>
         <div direction='vertical' style={blurStyle()} size="large">
             <h2>{swapAnswer ? <EnWordLabel english={english} symbol={symbol} symbolBlured={symbolBlured} /> : chinese}</h2>
