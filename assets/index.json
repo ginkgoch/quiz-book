@@ -1,0 +1,12 @@
+[
+    {
+        "type": "words",
+        "name": "单词",
+        "category": "english"
+    },
+    {
+        "type": "phrases",
+        "name": "短语",
+        "category": "english"
+    }
+]
