@@ -100,7 +100,7 @@ function EnglishQuizPage() {
                 newWordsInQuiz = newWordsInQuiz.filter(w => favoritedWords.includes(w.english));
             }
 
-            newWordsInQuiz = values.units.length === 0 ? newWordsInQuiz : newWordsInQuiz.filter(w => values.units.includes(w.source));
+            newWordsInQuiz = values.units.length === 0 ? newWordsInQuiz : newWordsInQuiz.filter(w => values.units.includes(w.unit));
             if (values.shuffled) {
                 newWordsInQuiz = _.shuffle(newWordsInQuiz);
             }
@@ -148,19 +148,19 @@ function EnglishQuizPage() {
                 <Button size="large" type="primary" style={{height: 60, width: 160}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
             </div>
             <div className='settings'>
-                <div style={{ width: 120 }}>
-                    <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Blur Answer</Checkbox></div>
-                    <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Blur Symbol</Checkbox></div>
+                <div style={{ width: 290 }}>
+                    <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Answer</Checkbox></div>
+                    <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Symbol</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
                 </div>
             </div></>);
     }
 
     return (<>
-        <div style={{ position: "fixed", left: 40, top: 20 }}>
+        <div style={{ position: "fixed", left: 10, top: 10 }}>
             <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
         </div>
-        <div style={{ position: "fixed", right: 40, top: 20 }}>
+        <div style={{ position: "fixed", right: 10, top: 10 }}>
             <div><Button icon={<SettingOutlined style={{ fontSize: 20 }} />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} /></div>
             <div style={{ marginTop: 10 }}><FavoriteButton checked={favorited} onClick={onFavoriteChanged} /></div>
 
