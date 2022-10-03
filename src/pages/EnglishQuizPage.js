@@ -148,9 +148,9 @@ function EnglishQuizPage() {
                 <Button size="large" type="primary" style={{height: 60, width: 160}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
             </div>
             <div className='settings'>
-                <div style={{ width: 120 }}>
-                    <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Blur Answer</Checkbox></div>
-                    <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Blur Symbol</Checkbox></div>
+                <div style={{ width: 290 }}>
+                    <div><Checkbox defaultChecked={answerBlured} onChange={onAnswerBluredChanged}>Answer</Checkbox></div>
+                    <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Symbol</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
                 </div>
             </div></>);

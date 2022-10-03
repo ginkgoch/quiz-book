@@ -26,12 +26,11 @@ h1 {
 }
 
 div.settings {
-  margin-top: 40px;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
 }
 
-div.settings>div {
-  width: 120px;
-  text-align: left;
+div.settings>div>div {
+  display: inline-block;
 }
