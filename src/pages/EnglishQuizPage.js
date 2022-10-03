@@ -100,7 +100,7 @@ function EnglishQuizPage() {
                 newWordsInQuiz = newWordsInQuiz.filter(w => favoritedWords.includes(w.english));
             }
 
-            newWordsInQuiz = values.units.length === 0 ? newWordsInQuiz : newWordsInQuiz.filter(w => values.units.includes(w.source));
+            newWordsInQuiz = values.units.length === 0 ? newWordsInQuiz : newWordsInQuiz.filter(w => values.units.includes(w.unit));
             if (values.shuffled) {
                 newWordsInQuiz = _.shuffle(newWordsInQuiz);
             }
@@ -157,10 +157,10 @@ function EnglishQuizPage() {
     }
 
     return (<>
-        <div style={{ position: "fixed", left: 40, top: 20 }}>
+        <div style={{ position: "fixed", left: 10, top: 10 }}>
             <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
         </div>
-        <div style={{ position: "fixed", right: 40, top: 20 }}>
+        <div style={{ position: "fixed", right: 10, top: 10 }}>
             <div><Button icon={<SettingOutlined style={{ fontSize: 20 }} />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} /></div>
             <div style={{ marginTop: 10 }}><FavoriteButton checked={favorited} onClick={onFavoriteChanged} /></div>
 
