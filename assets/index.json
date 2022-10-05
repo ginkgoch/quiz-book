@@ -8,5 +8,10 @@
         "type": "phrases",
         "name": "短语",
         "category": "english"
+    },
+    {
+        "type": "search",
+        "name": "搜索",
+        "category": "english"
     }
 ]
