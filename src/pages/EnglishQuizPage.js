@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Button, Checkbox, Form, Modal, Row, Col, Progress } from 'antd';
-import { LeftOutlined, SettingOutlined } from '@ant-design/icons'
+import { SettingOutlined } from '@ant-design/icons'
 
 import { loadWords } from '../shared/resources';
 import WordCard from '../components/WordCard';
 import FavoriteButton from '../components/FavoriteButton';
+import BackToHomeButton from '../components/BackToHomeButton';
 
 const storedFavoritedWordsKey = 'english-words-fav';
 
@@ -37,7 +38,6 @@ function EnglishQuizPage() {
     const [favoriteOnly, setFavoriteOnly] = useState(false);
     const { category, type } = useParams();
     const [form] = Form.useForm();
-    const navigate = useNavigate();
 
     useEffect(() => {
         loadWords(category, type).then(d => {
@@ -159,9 +159,10 @@ function EnglishQuizPage() {
     }
 
     return (<>
-        <div style={{ position: "fixed", left: 10, top: 10 }}>
+        {/* <div style={{ position: "fixed", left: 10, top: 10 }}>
             <Button icon={<LeftOutlined />} shape="circle" size="large" onClick={() => navigate('/')} />
-        </div>
+        </div> */}
+        <BackToHomeButton></BackToHomeButton>
         <div style={{ position: "fixed", right: 10, top: 10 }}>
             <div><Button icon={<SettingOutlined style={{ fontSize: 20 }} />} shape="circle" size="large" onClick={() => setSettingModalVisible(true)} /></div>
             <div style={{ marginTop: 10 }}><FavoriteButton checked={favorited} onClick={onFavoriteChanged} /></div>
