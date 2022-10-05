@@ -174,16 +174,16 @@ function EnglishQuizPage() {
             onCancel={() => setSettingModalVisible(false)}
             onOk={onConfigConfirmed}>
             <Form form={form} initialValues={{ shuffled, units: units, favoriteOnly }} name="ConfigForm" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
-                <Form.Item name="shuffled" label="Shuffled" valuePropName="checked">
-                    <Checkbox />
+                <Form.Item name="shuffled" valuePropName="checked">
+                    <Checkbox>Shuffled</Checkbox>
                 </Form.Item>
                 <Form.Item name="units" label="Units">
                     <Checkbox.Group>
                         <UnitOptions words={words} />
                     </Checkbox.Group>
                 </Form.Item>
-                <Form.Item name="favoriteOnly" label="Favorite Only" valuePropName="checked">
-                    <Checkbox />
+                <Form.Item name="favoriteOnly" valuePropName="checked">
+                    <Checkbox>Favorite Only</Checkbox>
                 </Form.Item>
             </Form>
         </Modal>
@@ -193,7 +193,7 @@ function EnglishQuizPage() {
 
 function UnitOptions({ words }) {
     return (<Row>
-        {[...new Set(words.map(w => w['unit']))].map(s => (<Col span={8} key={s}><Checkbox name={s} value={s}>{s}</Checkbox></Col>))}
+        {[...new Set(words.map(w => w['unit']))].map(s => (<Col span={6} key={s}><Checkbox name={s} value={s}>{s}</Checkbox></Col>))}
     </Row>);
 }
 
