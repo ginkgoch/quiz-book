@@ -138,14 +138,15 @@ function EnglishQuizPage() {
 
     let quizContent = <>No Quiz Items</>
     if (wordsInQuiz.length > 0) {
-        quizContent = (<><div style={{ 'flexGrow': 1 }}>
+        quizContent = (<><div style={{ 'flexGrow': 1, display: 'flex', flexFlow: 'column', justifyContent: 'center' }}>
             <WordCard answerBlured={answerBlured} symbolBlured={symbolBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
         </div>
+        <div className='actions'>
             <div><span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span></div>
             <Progress style={{width: 290, marginBottom: 20}} percent={(current + 1) * 100 / wordsInQuiz.length} showInfo={false}></Progress>
             <div>
-                <Button size="large" type="normal" style={{height: 60, width: 120, marginRight: 10}} disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button> 
-                <Button size="large" type="primary" style={{height: 60, width: 160}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
+                <Button size="large" type="normal" style={{height: 60, width: 120, marginRight: 10, borderRadius: 12}} disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button> 
+                <Button size="large" type="primary" style={{height: 60, width: 160, borderRadius: 12}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
             </div>
             <div className='settings'>
                 <div style={{ width: 290 }}>
@@ -153,7 +154,8 @@ function EnglishQuizPage() {
                     <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Symbol</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
                 </div>
-            </div></>);
+            </div>
+        </div></>);
     }
 
     return (<>
@@ -172,16 +174,16 @@ function EnglishQuizPage() {
             onCancel={() => setSettingModalVisible(false)}
             onOk={onConfigConfirmed}>
             <Form form={form} initialValues={{ shuffled, units: units, favoriteOnly }} name="ConfigForm" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
-                <Form.Item name="shuffled" label="Shuffled" valuePropName="checked">
-                    <Checkbox />
+                <Form.Item name="shuffled" valuePropName="checked">
+                    <Checkbox>Shuffled</Checkbox>
                 </Form.Item>
                 <Form.Item name="units" label="Units">
                     <Checkbox.Group>
                         <UnitOptions words={words} />
                     </Checkbox.Group>
                 </Form.Item>
-                <Form.Item name="favoriteOnly" label="Favorite Only" valuePropName="checked">
-                    <Checkbox />
+                <Form.Item name="favoriteOnly" valuePropName="checked">
+                    <Checkbox>Favorite Only</Checkbox>
                 </Form.Item>
             </Form>
         </Modal>
@@ -191,7 +193,7 @@ function EnglishQuizPage() {
 
 function UnitOptions({ words }) {
     return (<Row>
-        {[...new Set(words.map(w => w['unit']))].map(s => (<Col span={8} key={s}><Checkbox name={s} value={s}>{s}</Checkbox></Col>))}
+        {[...new Set(words.map(w => w['unit']))].map(s => (<Col span={6} key={s}><Checkbox name={s} value={s}>{s}</Checkbox></Col>))}
     </Row>);
 }
 
