@@ -1,5 +1,16 @@
 .App {
   text-align: center;
+  flex-flow: column;
+  display: flex;
+  height: 100%;
+}
+
+.App>.actions {
+  height: 220px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {

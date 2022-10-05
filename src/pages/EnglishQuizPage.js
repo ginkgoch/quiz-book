@@ -138,9 +138,10 @@ function EnglishQuizPage() {
 
     let quizContent = <>No Quiz Items</>
     if (wordsInQuiz.length > 0) {
-        quizContent = (<><div style={{ 'flexGrow': 1 }}>
+        quizContent = (<><div style={{ 'flexGrow': 1, display: 'flex', flexFlow: 'column', justifyContent: 'center' }}>
             <WordCard answerBlured={answerBlured} symbolBlured={symbolBlured} swapAnswer={swapAnswer} {...wordsInQuiz[current]}></WordCard>
         </div>
+        <div className='actions'>
             <div><span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span></div>
             <Progress style={{width: 290, marginBottom: 20}} percent={(current + 1) * 100 / wordsInQuiz.length} showInfo={false}></Progress>
             <div>
@@ -153,7 +154,8 @@ function EnglishQuizPage() {
                     <div><Checkbox defaultChecked={symbolBlured} onChange={onSymbolBluredChanged}>Symbol</Checkbox></div>
                     <div><Checkbox defaultChecked={swapAnswer} onChange={onSwapAnswerChanged}>Swap Q&A</Checkbox></div>
                 </div>
-            </div></>);
+            </div>
+        </div></>);
     }
 
     return (<>
