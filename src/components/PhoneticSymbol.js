@@ -12,8 +12,13 @@ const Small = styled.small`
 `;
 
 function PhoneticSymbol({category, symbol}) {
+    let backgroundColor = null;
+    if (category === 'br') {
+        backgroundColor = '#9f57b5';
+    }
+
     return <Container>
-        <RoundTag text={category}></RoundTag>
+        <RoundTag text={category} backgroundColor={backgroundColor}></RoundTag>
         <Small>/ {symbol} /</Small>
     </Container>
 }

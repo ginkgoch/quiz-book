@@ -145,8 +145,8 @@ function EnglishQuizPage() {
             <div><span style={{ display: "inline-block", width: 100 }}>{getIndexName()}</span></div>
             <Progress style={{width: 290, marginBottom: 20}} percent={(current + 1) * 100 / wordsInQuiz.length} showInfo={false}></Progress>
             <div>
-                <Button size="large" type="normal" style={{height: 60, width: 120, marginRight: 10}} disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button> 
-                <Button size="large" type="primary" style={{height: 60, width: 160}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
+                <Button size="large" type="normal" style={{height: 60, width: 120, marginRight: 10, borderRadius: 12}} disabled={!(current > 0)} onClick={onPreviousWord}>Previous</Button> 
+                <Button size="large" type="primary" style={{height: 60, width: 160, borderRadius: 12}} disabled={!(current < wordsInQuiz.length - 1)} onClick={onNextWord}>Next</Button>
             </div>
             <div className='settings'>
                 <div style={{ width: 290 }}>
